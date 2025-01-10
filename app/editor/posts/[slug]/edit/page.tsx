@@ -2,10 +2,12 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import EditPostForm from '@/src/components/posts/EditPostForm';
+import { PageProps } from '@/.next/types/app/page'
 
-export default async function PostEdit({ params }: { params: { slug: string } }) {
+export default async function PostEdit(  { params }:PageProps) {
   const supabase = createServerComponentClient({ cookies });
-  
+  const {slug} = await(params)
+
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -14,11 +16,10 @@ export default async function PostEdit({ params }: { params: { slug: string } })
     redirect('/login');
   }
 
-  // Получаем данные поста для редактирования
   const { data: post } = await supabase
     .from('posts')
     .select("*")
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .maybeSingle();
 
   if (!post) {

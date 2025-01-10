@@ -1,10 +1,9 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { slug: string } }
 ) {
   const supabase = createRouteHandlerClient({ cookies })
 
@@ -19,6 +18,8 @@ export async function PATCH(
 
   try {
     const postData = await request.json()
+    const url = new URL(request.url)
+    const slug = url.pathname.split('/').pop()
 
     const { data, error } = await supabase
       .from('posts')
@@ -27,7 +28,7 @@ export async function PATCH(
         updated_at: new Date().toISOString(),
         published_at: postData.is_published ? new Date().toISOString() : null,
       })
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .select()
       .single()
 
@@ -47,8 +48,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-    _request: Request,
-    { params }: { params: { slug: string } }
+    request: NextRequest,
 ) {
   const supabase = createRouteHandlerClient({ cookies })
 
@@ -62,10 +62,13 @@ export async function DELETE(
   }
 
   try {
+    const url = new URL(request.url)
+    const slug = url.pathname.split('/').pop()
+
     const { error } = await supabase
         .from('posts')
         .delete()
-        .eq('slug', params.slug)
+        .eq('slug', slug)
 
     if (error) {
       console.error('Supabase error:', error)
