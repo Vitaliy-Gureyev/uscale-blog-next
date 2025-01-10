@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /posts/*
+Disallow: /login
+Disallow: /editor
+Disallow: /editor/*
+
+# Sitemap
+Sitemap: https://blog.uscale.ai/sitemap.xml
