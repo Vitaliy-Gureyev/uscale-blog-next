@@ -7,19 +7,19 @@ export async function PATCH(
   { params }: { params: { slug: string } }
 ) {
   const supabase = createRouteHandlerClient({ cookies })
-  
+
   const { data: { session } } = await supabase.auth.getSession()
-  
+
   if (!session) {
     return NextResponse.json(
-      { error: 'You must be logged in to update posts' }, 
+      { error: 'You must be logged in to update posts' },
       { status: 401 }
     )
   }
 
   try {
     const postData = await request.json()
-    
+
     const { data, error } = await supabase
       .from('posts')
       .update({
@@ -44,4 +44,40 @@ export async function PATCH(
       { status: 500 }
     )
   }
-} 
+}
+
+export async function DELETE(
+    _request: Request,
+    { params }: { params: { slug: string } }
+) {
+  const supabase = createRouteHandlerClient({ cookies })
+
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (!session) {
+    return NextResponse.json(
+        { error: 'You must be logged in to delete posts' },
+        { status: 401 }
+    )
+  }
+
+  try {
+    const { error } = await supabase
+        .from('posts')
+        .delete()
+        .eq('slug', params.slug)
+
+    if (error) {
+      console.error('Supabase error:', error)
+      throw error
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Server error:', error)
+    return NextResponse.json(
+        { error: error instanceof Error ? error.message : 'Failed to delete post' },
+        { status: 500 }
+    )
+  }
+}
