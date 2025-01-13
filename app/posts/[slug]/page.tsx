@@ -28,18 +28,28 @@ export async function generateMetadata(
   if (!post) {
     return {
       title: 'Post Not Found',
+      description: 'The requested blog post could not be found.',
     }
   }
 
-  // Handle null values for OpenGraph
+  const description = post.excerpt || `Read ${post.title} - Latest insights about ${post.category || 'customer engagement'} on Uscale Blog`;
+
   return {
     title: post.title,
-    description: post.excerpt || undefined,
+    description: description,
     openGraph: {
       title: post.title,
-      description: post.excerpt || undefined,
+      description: description,
       images: post.image_url ? [{ url: post.image_url }] : undefined,
     },
+    twitter: {
+      title: post.title,
+      description: description,
+      images: post.image_url ? [{ url: post.image_url }] : undefined,
+    },
+    alternates: {
+      canonical: `https://blog.uscale.ai/posts/${slug}`
+    }
   }
 }
 
