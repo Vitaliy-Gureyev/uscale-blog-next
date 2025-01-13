@@ -3,9 +3,9 @@ import * as React from "react"
 import { cn } from "@/src/lib/utils"
 import { useIsMobile } from "@/src/hooks/use-mobile"
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from "./sidebar-constants"
-import { 
-  SidebarContext, 
-  SIDEBAR_COOKIE_NAME, 
+import {
+  SidebarContext,
+  SIDEBAR_COOKIE_NAME,
   SIDEBAR_COOKIE_MAX_AGE,
   SIDEBAR_KEYBOARD_SHORTCUT,
   type SidebarState
@@ -95,10 +95,6 @@ export const SidebarProvider = React.forwardRef<
               ...style,
             } as React.CSSProperties
           }
-          className={cn(
-            "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
-            className
-          )}
           ref={ref}
           {...props}
         >
