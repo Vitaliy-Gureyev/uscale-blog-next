@@ -17,7 +17,7 @@ const Login = () => {
           .select('is_admin')
           .eq('id', user.id || '')
           .single();
-        
+
         if (profile?.is_admin) {
           navigate('/');
         }
@@ -32,11 +32,11 @@ const Login = () => {
             .select('is_admin')
             .eq('id', session?.user.id || '')
             .single();
-          
+
           if (profile?.is_admin) {
             navigate('/');
           } else {
-            toast.error("Access denied. Admin privileges required.");
+            toast.error("Access denied. Admin privileges required");
             await supabase.auth.signOut();
           }
         }
