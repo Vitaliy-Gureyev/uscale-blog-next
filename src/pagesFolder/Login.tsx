@@ -36,7 +36,7 @@ const Login = () => {
           if (profile?.is_admin) {
             navigate('/');
           } else {
-            toast.error("Access denied. Admin privileges required.");
+            toast.error("Access denied. Admin privileges required");
             await supabase.auth.signOut();
           }
         }
