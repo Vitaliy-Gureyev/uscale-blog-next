@@ -84,22 +84,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <CustomQueryClientProvider>
-       <TooltipProvider delayDuration={0}>
-      <Toaster />
-      <Sonner />
-       <SidebarProvider>
+      <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-      <AppLayout>
-      {children}
-      </AppLayout>
+      <CustomQueryClientProvider>
+        <TooltipProvider delayDuration={0}>
+          <Toaster/>
+          <Sonner/>
+          <SidebarProvider>
+            <AppLayout>
+              {children}
+            </AppLayout>
+      </SidebarProvider>
+</TooltipProvider>
+</CustomQueryClientProvider>
       </body>
-       </SidebarProvider>
-       </TooltipProvider>
-      </CustomQueryClientProvider>
-    </html>
-  );
+      </html>
+)
+  ;
 }

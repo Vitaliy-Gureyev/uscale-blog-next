@@ -1,5 +1,6 @@
 import Index from "@/src/pagesFolder/Index";
 import { Metadata } from 'next';
+import {getPosts} from "@/app/lib/getPosts";
 
 export const metadata: Metadata = {
   description: 'Discover insights about AI-powered customer engagement, marketing automation, and personalization strategies. Stay updated with the latest trends in customer experience optimization.',
@@ -11,9 +12,11 @@ export const metadata: Metadata = {
   }
 }
 
-export default function Home() {
+export default async function Home() {
+  const { posts, categories, isAdmin } = await getPosts()
+
   return (
-    <Index />
+    <Index  posts={posts} categories={categories} isAdmin={isAdmin} />
   )
 }
 
